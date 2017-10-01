@@ -1,0 +1,28 @@
+Initial:
+- build a simple one in python
+- forward propagation 
+- backpropagation
+- no hidden layer
+- linear activation
+
+Reminders:
+- generic activation function, need a regression or tanh like function, not classification stuff like
+sigmoid and whatnot
+- put the csv data in a database?
+- normalize our data, take the data, find the mean, find the variance, using the variance, get std. dev. normalize all
+
+Legit one:
+- multi hidden layers
+- better fitting activation function
+
+Schedule:
+- oct 16th progress report
+- have the prototype working by 16th
+- by friday night have a prototype 
+- saturday morning we do a touch base, 
+- 
+- 
+- 
+- 
+- 
+
