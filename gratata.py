@@ -19,9 +19,9 @@ class Gratata:
             results = self.forward_propogate(formatted_data)
             errors = self.back_propogate(formatted_data, results)
 
-            print("====results, iteration: " + str(i))
+            print("==== RESULTS, iteration: " + str(i))
             print(results)
-            print("=====errors, iteration: " + str(i))
+            print("===== ERRORS, iteration: " + str(i))
             print(errors)
 
     def predict(self, input):
@@ -68,9 +68,6 @@ class Gratata:
         results = []
 
         # activation and sum between input layer and hidden layer
-        print(self.weights)
-        print(data["input"])
-
         input_to_hidden_sum = np.dot(data["input"], self.weights[0])
         input_to_hidden_activation = self.tanh(input_to_hidden_sum)
         results.append({"sum": input_to_hidden_sum, "activation": input_to_hidden_activation})
