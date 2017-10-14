@@ -19,8 +19,6 @@ class Gratata:
             results = self.forward_propogate(training_data)
             errors = self.back_propogate(training_data, results)
 
-            print("==== RESULTS, iteration: " + str(i))
-            print(results)
             print("===== ERRORS, iteration: " + str(i))
             print(errors)
 
@@ -69,18 +67,18 @@ class Gratata:
 
         # activation and sum between input layer and hidden layer
         input_to_hidden_sum = np.dot(data["input"], self.weights[0])
-        input_to_hidden_activation = self.tanh(input_to_hidden_sum)
+        input_to_hidden_activation = self.activate(input_to_hidden_sum)
         results.append({"sum": input_to_hidden_sum, "activation": input_to_hidden_activation})
 
         # activation and sum between hidden layers
         for i in range(1, self.hidden_layers):
             hidden_to_hidden_sum = np.dot(results[i - 1]["activation"], self.weights[i])
-            hidden_to_hidden_activation = self.tanh(hidden_to_hidden_sum)
+            hidden_to_hidden_activation = self.activate(hidden_to_hidden_sum)
             results.append({"sum": hidden_to_hidden_sum, "activation": hidden_to_hidden_activation})
 
         # last hidden layer to output layer
         hidden_to_output_sum = np.dot(results[-1]["activation"], self.weights[-1])
-        hidden_to_output_activation = self.tanh(hidden_to_output_sum)
+        hidden_to_output_activation = self.activate(hidden_to_output_sum)
         results.append({"sum": hidden_to_output_sum, "activation": hidden_to_output_activation})
 
         return results
@@ -88,13 +86,13 @@ class Gratata:
     def back_propogate(self, data, results):
         # take it back now yall, one hop this time! two hops this time!
         hidden_layers = self.hidden_layers
-        learning_rate = self.hidden_layers
+        learning_rate = self.learning_rate
         weights = self.weights
 
         error = np.subtract(data["output"], results[-1]["activation"])
 
         # output layer to last hidden layer
-        sum_at_layer = self.tanh_prime(results[-1]["sum"])
+        sum_at_layer = self.activate_prime(results[-1]["sum"])
         transposed_activation_results = results[hidden_layers - 1]["activation"].transpose()
 
         delta = np.multiply(sum_at_layer, error) # element-wise multiplication
@@ -103,36 +101,38 @@ class Gratata:
 
         # hidden layer to hidden layer
         for i in range(1, hidden_layers):
-            sum_at_layer = self.tanh_prime(results[len(results) - (i + 1)]["sum"])
-            transposed_activation_results = results[len(results) - (i + 1)]["activation"].transpose()
+            sum_at_layer = self.activate_prime(results[- (i + 1)]["sum"])
+            transposed_activation_results = results[- (i + 1)]["activation"].transpose()
 
-            delta = np.multiply(np.dot(delta, weights[len(weights) - i].transpose()), sum_at_layer)
+            delta = np.multiply(np.dot(delta, weights[- i].transpose()), sum_at_layer)
             changes =  np.dot(transposed_activation_results, delta) * learning_rate
-            weights[len(weights) - (i + 1)] = np.add(weights[len(weights) - (i + 1)], changes)
+            weights[- (i + 1)] = np.add(weights[- (i + 1)], changes)
 
         # first hidden layer to input layer
-        sum_at_layer = self.tanh_prime(results[0]["sum"])
+        sum_at_layer = self.activate_prime(results[0]["sum"])
         delta = np.multiply(np.dot(delta, weights[1].transpose()), sum_at_layer)
         changes = np.dot(data["input"].transpose(), delta) * learning_rate
         weights[0] = np.add(weights[0], changes)
 
         return error
 
-    def tanh(self, x):
+    def activate(self, x):
         return np.tanh(x)
 
-    def tanh_prime(self, x):
+    def activate_prime(self, x):
         return 1.0 - np.tanh(x)**2
 
 
 if __name__ == "__main__":
     df = pd.read_csv('StdHousingData.csv')
     df_input = df[['bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'age']].as_matrix()
-    df_output = df['price'].as_matrix()
+    df_output = df[['price']].as_matrix()
     training_data = {
             'input': df_input,
             'output': df_output
             }
-    
-    a = Gratata(2, 3, 100, 0.3)
+
+    a = Gratata(3, 7, 10, 0.3)
     a.train(training_data);
+    p = a.predict([-0.398727924,-1.447430082,-0.979812353,-0.22831605,-0.915405826,0.626892746])
+    print(p["activation"][0])
