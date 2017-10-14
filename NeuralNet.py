@@ -1,6 +1,6 @@
 import numpy as np
 
-class Gratata:
+class NeuralNet:
     def __init__(self, hidden_layers, hidden_nodes, iterations, learning_rate):
         self.hidden_layers = hidden_layers
         self.hidden_nodes = hidden_nodes
@@ -126,7 +126,7 @@ class Gratata:
 
 
 def OR_test():
-    a = Gratata(2, 3, 100, 0.3)
+    a = NeuralNet(2, 3, 100, 0.3)
     a.train([
         { "input": [0, 0, 0], "output": [0] },
         { "input": [0, 0, 1], "output": [1] },
