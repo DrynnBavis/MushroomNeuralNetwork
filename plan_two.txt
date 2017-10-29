@@ -1,0 +1,20 @@
+Oct 29th, 2017:
+	- Ran into issues: 
+		- huge numbers from relu, use linear activation instead since data is standardized
+		- we all NEED to understand every line of the code, specifically backpropagation 
+		- why do we transpose?
+	- Jordan will try his own version in matlab with a small subset
+
+Oct 30th, 2017:
+	- Shabab&Brynn, go through each line of the python code with a small subset of the dataset. Use hand calculations and matlab/octave for assistance
+	- correct issues with huge numbers (add regularization?, change learning rate?)
+	- Meet up with Jordan (8pm) and see where we're at
+	Goal: understand each line
+
+Oct 31st, 2017:
+	- Jordan, Brynn, Shabab meet up after class, make sure this thing works with 20k rows
+	- pretty much just get the kohde right
+
+
+Report Due: November 10th, 2017
+Video Due: November 17th, 2017	
