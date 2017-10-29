@@ -1,5 +1,12 @@
 import numpy as np
 import pandas as pd
+# =========== ACTIVATION FUNCTIONS ===========
+
+def tanh(x):
+    return np.tanh(x)
+
+def tanh_prime(x):
+    return 1.0 - np.tanh(x)**2
 
 class Gratata:
     def __init__(self, hidden_layers, hidden_nodes, iterations, learning_rate):
@@ -117,10 +124,10 @@ class Gratata:
         return error
 
     def activate(self, x):
-        return np.tanh(x)
+        return tanh(x)
 
     def activate_prime(self, x):
-        return 1.0 - np.tanh(x)**2
+        return tanh_prime(x)
 
 
 if __name__ == "__main__":
