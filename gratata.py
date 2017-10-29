@@ -8,12 +8,24 @@ def tanh(x):
 def tanh_prime(x):
     return 1.0 - np.tanh(x)**2
 
+def relu(x):
+    if x >= 0:
+        return x
+    return 0
+
+def relu_prime(x):
+    if x >= 0:
+        return 1
+    return 0
+
 class Gratata:
     def __init__(self, hidden_layers, hidden_nodes, iterations, learning_rate):
         self.hidden_layers = hidden_layers
         self.hidden_nodes = hidden_nodes
         self.iterations = iterations
         self.learning_rate = learning_rate
+        self.activation_function = np.vectorize(relu)
+        self.activation_function_prime = np.vectorize(relu_prime)
 
     def train(self, training_data):
         # training data should look like this:
@@ -124,10 +136,10 @@ class Gratata:
         return error
 
     def activate(self, x):
-        return tanh(x)
+        return activation_function(x)
 
     def activate_prime(self, x):
-        return tanh_prime(x)
+        return activate_function_prime(x)
 
 
 if __name__ == "__main__":
