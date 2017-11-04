@@ -1,6 +1,6 @@
 clear;
 % ========== READ CSV ===========
-csv_file = csvread('or.csv', 1, 0);
+csv_file = csvread('or.csv', 0, 0)
 % ========== VARIABLE DECLARATION ==========
 input = csv_file(:, 1:end-1);
 output = csv_file(:, end);
