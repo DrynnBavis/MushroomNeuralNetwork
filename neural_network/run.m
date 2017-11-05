@@ -2,10 +2,10 @@ clear;
 % ========== VARIABLE DECLARATION ==========
 training_ex_index_lower = 1;
 training_ex_index_higher = 800;
-nodes_per_layer = [112 113 2];
-learning_rate = 0.1;
+nodes_per_layer = [112 112 1];
+learning_rate = 0.15;
 regularization_term = 0;
-max_iterations = 100000;
+max_iterations = 50000;
 max_acceptable_error = 1.0000e-07; % max relative acceptable error between thetas
 
 % ========== READ CSV ===========
@@ -14,7 +14,7 @@ training_set = csv_file(training_ex_index_lower:training_ex_index_higher, :);
 % Input
 X = training_set(:, 3:end);
 % Output
-Y = training_set(:, 1:2);
+Y = training_set(:, 1);
 
 % ========== START RUNNING ==========
 printf('Welcome to the mushroom neural network predicter!\n')
@@ -37,7 +37,7 @@ while(current_session)
     % row = randi(size(csv_file, 1) - training_ex_index_higher) + training_ex_index_higher;
     row = randi(training_ex_index_higher);
     x = csv_file(row, 3:end);
-    y = csv_file(row, 1:2);
+    y = csv_file(row, 1);
     printf('From row %d\n', row)
     [predicted, actual] = predict(x, y, theta)
   elseif(strcmp(choice, '2'))
