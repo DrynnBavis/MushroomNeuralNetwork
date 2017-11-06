@@ -35,8 +35,6 @@ else
   [theta, err] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
   printf('Done training!\n');
 end
-err = find_error(theta) * 100;
-printf('Model contains %d%% accuracy.\n\n', err);
 
 current_session = true;
 while(current_session)
