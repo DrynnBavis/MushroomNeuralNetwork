@@ -1,8 +1,9 @@
-function [theta, err] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term)
+function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term)
   max_abs_error = 1 + max_acceptable_error;
   num_layers = size(nodes_per_layer, 2);
   % Initialize thetas (weights between layers)
   theta = cell(1, size(nodes_per_layer, 2) - 1);
+  cost_vector = [];
 
   % all layers except output layer have a bias unit associated with it
   for i=1:num_layers-1
@@ -74,6 +75,7 @@ function [theta, err] = train(X, Y, nodes_per_layer, max_iterations, max_accepta
       end
       max_abs_error = biggest_change;
       iterations = iterations + 1;
+      cost_vector = [cost_vector, compute_cost(a{end}, Y)];
   end
 
   theta = theta;

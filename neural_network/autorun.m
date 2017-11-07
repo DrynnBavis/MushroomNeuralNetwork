@@ -6,7 +6,7 @@ clear;
 training_ex_index_lower = 1;
 training_ex_index_higher = 100; %max 7000
 nodes_per_layer = [112 112 1];
-learning_rate = 0.15;
+learning_rate = 0.5;
 regularization_term = 0;
 max_iterations = 10000;
 max_acceptable_error = 1.0000e-07; % max relative acceptable error between thetas

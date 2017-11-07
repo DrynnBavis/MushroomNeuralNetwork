@@ -1,11 +1,11 @@
 clear;
 % ========== VARIABLE DECLARATION ==========
 training_ex_index_lower = 1;
-training_ex_index_higher = 100; %max 7000
+training_ex_index_higher = 700; %max 7000
 nodes_per_layer = [112 112 1];
-learning_rate = 0.15;
+learning_rate = 0.07;
 regularization_term = 0;
-max_iterations = 50000;
+max_iterations = 1000;
 max_acceptable_error = 1.0000e-07; % max relative acceptable error between thetas
 
 % ========== READ CSV ===========
@@ -32,8 +32,10 @@ if(strcmp(train_model, 'y'))
   printf('Loaded %s.\nModel contains %d%% accuracy.\n\n', theta_file, err);
 else
   printf('Training from scratch...\n');
-  [theta, err] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
+  [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
   printf('Done training!\n');
+  iterations_performed = [1:1:size(cost_vector, 2)];
+  plot_cost(iterations_performed, cost_vector, "cost vs iterations", "iterations", "cost");
 end
 
 current_session = true;

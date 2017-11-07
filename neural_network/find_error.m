@@ -1,4 +1,4 @@
-function error = find_error(theta)  
+function error = find_error(theta)
   csv_file = csvread('../datasets/correction-set.csv', 1, 0);
   correction_set = csv_file(:,:);
   hit = 0;
