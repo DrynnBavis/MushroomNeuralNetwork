@@ -19,9 +19,9 @@ X = training_set(:, 3:end);
 % Output
 Y = training_set(:, 1);
 
-[theta, err] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
+[theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
 
 file_name = strcat('trained_networks/trained-', num2str(floor(time)));
 file_name = strcat(file_name, '.mat');
 
-save(file_name, 'theta');
+save(file_name, 'theta', 'err', 'cost_vector');
