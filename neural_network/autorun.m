@@ -10,7 +10,7 @@ num_training_ex = training_ex_index_higher - training_ex_index_lower + 1;
 nodes_per_layer = [112 112 1];     % nodes in each layer
 learning_rate = 0.15;              % learning rate (applied to delta changes)
 regularization_term = 0;           % regularization term (for overfitting)
-max_iterations = 1;           % max iterations
+max_iterations = 100000;           % max iterations
 min_acceptable_error = 1.0000e-07; % min relative acceptable error between thetas
 
 % ========== READ CSV ===========
