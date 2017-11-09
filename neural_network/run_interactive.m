@@ -26,17 +26,17 @@ X = training_set(:, 3:end);
 Y = training_set(:, 1);
 
 % ========== START RUNNING ==========
-fprintf(stderr, "%s\n", );('Welcome to the poisonous mushroom neural network predicter!\n')
+fprintf('Welcome to the poisonous mushroom neural network predicter!\n')
 
 % ========== PRESENTATION PURPOSES ==========
 if(presentation_mode)
-  fprintf(stderr, "%s\n", );('Presentation mode active.\n')
-  fprintf(stderr, "%s\n", );('Please turn presentation_mode to false to load/train custom neural networks\n');
-  fprintf(stderr, "%s\n", );('Welcome Professor Kwan/TAs!\n')
+  fprintf('Presentation mode active.\n')
+  fprintf('Please turn presentation_mode to false to load/train custom neural networks\n');
+  fprintf('Welcome Professor Kwan/TAs!\n')
   neural_network_file = chosen_neural_network_file;
   load(neural_network_file);
   err = find_error(theta) * 100;
-  fprintf(stderr, "%s\n", );('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
+  fprintf('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
 
 % ========== TRAINING/LOADING CUSTOM NEURAL NETWORKS ===========
 else
@@ -48,16 +48,16 @@ else
       try
         load(neural_network_file);
       catch
-        fprintf(stderr, "%s\n", );('Error, could not find file called %s\n\n', neural_network_file);
+        fprintf('Error, could not find file called %s\n\n', neural_network_file);
       end
     end
     err = find_error(theta) * 100;
-    fprintf(stderr, "%s\n", );('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
+    fprintf('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
 
   else
-    fprintf(stderr, "%s\n", );('Training from scratch...\n');
+    fprintf('Training from scratch...\n');
     [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, min_acceptable_error, learning_rate, regularization_term);
-    fprintf(stderr, "%s\n", );('Done training!\n');
+    fprintf('Done training!\n');
     iterations_performed = [1:1:size(cost_vector, 2)];
     plot_cost(iterations_performed, cost_vector, 'cost vs iterations', 'iterations', 'cost');
   end
@@ -81,20 +81,20 @@ while(current_session)
       prediction_correct = prediction_correct + 1;
     end
 
-    fprintf(stderr, "%s\n", );('From row %d\n', row)
-    fprintf(stderr, "%s\n", );('actual: %d\n', actual);
-    fprintf(stderr, "%s\n", );('predicted: %f => %d\n', predicted, rounded_predicted);
-    fprintf(stderr, "%s\n", );('Percentage correct %f\n', (prediction_correct/prediction_count) * 100);
+    fprintf('From row %d\n', row)
+    fprintf('actual: %d\n', actual);
+    fprintf('predicted: %f => %d\n', predicted, rounded_predicted);
+    fprintf('Percentage correct %f\n', (prediction_correct/prediction_count) * 100);
 
   elseif(strcmp(choice, '2'))
     weights_name = input('Enter the name of the file: ', 's');
     save(weights_name, 'theta');
 
   elseif(strcmp(choice, '3') || strcmp(choice, 'q'))
-    fprintf(stderr, "%s\n", );('Quitting session\n');
+    fprintf('Quitting session\n');
     current_session = false;
 
   else
-    fprintf(stderr, "%s\n", );('Please try again\n');
+    fprintf('Please try again\n');
   end
 end
