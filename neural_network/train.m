@@ -1,5 +1,5 @@
-function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term)
-  max_abs_error = 1 + max_acceptable_error;
+function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, min_acceptable_error, learning_rate, regularization_term)
+  rel_error = 1 + min_acceptable_error;
   num_layers = size(nodes_per_layer, 2);
   % Initialize thetas (weights between layers)
   theta = cell(1, size(nodes_per_layer, 2) - 1);
@@ -20,7 +20,7 @@ function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations
   iterations = 0;
 
   % ========== TRAINING ===========
-  while(max_abs_error > max_acceptable_error && iterations < max_iterations)
+  while(rel_error > min_acceptable_error && iterations < max_iterations)
       % ========== FORWARD PROPOGATION ==========
       % ========== LAYER ONE (input) ==========
       % Add bias unit to input
@@ -73,7 +73,7 @@ function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations
             biggest_change = max(max(abs(delta_theta{j})));
          end
       end
-      max_abs_error = biggest_change;
+      rel_error = biggest_change;
       iterations = iterations + 1;
       cost_vector = [cost_vector, compute_cost(a{end}, Y)];
   end

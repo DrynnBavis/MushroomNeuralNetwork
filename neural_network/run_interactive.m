@@ -1,65 +1,99 @@
+% ========== PURPOSE ============
+% Used to interactively train/load neural networks
+% One can check the accuracy of the training set and use it to predict against
+% values in the csv file
 clear;
+
 % ========== VARIABLE DECLARATION ==========
-training_ex_index_lower = 1;
-training_ex_index_higher = 700; %max 7000
-nodes_per_layer = [112 112 1];
-learning_rate = 0.07;
-regularization_term = 0;
-max_iterations = 1000;
-max_acceptable_error = 1.0000e-07; % max relative acceptable error between thetas
+% Change these variables to manipulate the training
+training_ex_index_lower = 1;       % initial row of csv file (min 1)
+training_ex_index_higher = 5000;   % final row of csv file (max 7000)
+num_training_ex = training_ex_index_higher - training_ex_index_lower + 1;
+nodes_per_layer = [112 112 1];     % nodes in each layer
+learning_rate = 0.15;              % learning rate (applied to delta changes)
+regularization_term = 0;           % regularization term (for overfitting)
+max_iterations = 100000;           % max iterations
+min_acceptable_error = 1.0000e-07; % min relative acceptable error between thetas
+presentation_mode = false;
+chosen_neural_network_file = 'trained_networks/trained-1510092688.mat';
 
 % ========== READ CSV ===========
 csv_file = csvread('../datasets/one-hot-mushrooms.csv', 1, 0);
 training_set = csv_file(training_ex_index_lower:training_ex_index_higher, :);
-% Inpu
+% Input
 X = training_set(:, 3:end);
 % Output
 Y = training_set(:, 1);
 
 % ========== START RUNNING ==========
-printf('Welcome to the mushroom neural network predicter!\n')
-train_model = input('Would you like to load an existing model? (y/n): ', 's');
-if(strcmp(train_model, 'y'))
-  while(exist("theta", "var") == 0)
-    theta_file = input('Please input the csv filename: ', 's');
-    try
-      load(theta_file, 'theta');
-    catch
-      printf("Error, could not find file called %s\n\n", theta_file);
-    end
-  end
+printf('Welcome to the poisonous mushroom neural network predicter!\n')
+
+% ========== PRESENTATION PURPOSES ==========
+if(presentation_mode)
+  printf('Presentation mode active.\n')
+  printf('Please turn presentation_mode to false to load/train custom neural networks\n');
+  printf('Welcome Professor Kwan/TAs!\n')
+  neural_network_file = chosen_neural_network_file;
+  load(neural_network_file);
   err = find_error(theta) * 100;
-  printf('Loaded %s.\nModel contains %d%% accuracy.\n\n', theta_file, err);
+  printf('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
+
+% ========== TRAINING/LOADING CUSTOM NEURAL NETWORKS ===========
 else
-  printf('Training from scratch...\n');
-  [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, max_acceptable_error, learning_rate, regularization_term);
-  printf('Done training!\n');
-  iterations_performed = [1:1:size(cost_vector, 2)];
-  plot_cost(iterations_performed, cost_vector, "cost vs iterations", "iterations", "cost");
+  train_model = input('Would you like to load an existing model? (y/n): ', 's');
+
+  if(strcmp(train_model, 'y'))
+    while(exist('theta', 'var') == 0)
+      neural_network_file = input('Please input the csv filename: ', 's');
+      try
+        load(neural_network_file);
+      catch
+        printf('Error, could not find file called %s\n\n', neural_network_file);
+      end
+    end
+    err = find_error(theta) * 100;
+    printf('Loaded %s.\nModel contains %d%% accuracy.\n\n', neural_network_file, err);
+
+  else
+    printf('Training from scratch...\n');
+    [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, min_acceptable_error, learning_rate, regularization_term);
+    printf('Done training!\n');
+    iterations_performed = [1:1:size(cost_vector, 2)];
+    plot_cost(iterations_performed, cost_vector, 'cost vs iterations', 'iterations', 'cost');
+  end
 end
 
 current_session = true;
+prediction_correct = 0;
+prediction_count = 0;
 while(current_session)
   choice = input('What would you like to do? (1) predict, (2) save weights, (3) quit: ', 's');
+
   if(strcmp(choice, '1'))
-    % row = randi(size(csv_file, 1) - training_ex_index_higher) + training_ex_index_higher;
-    row = randi(training_ex_index_higher);
+    row = randi(size(csv_file, 1) - training_ex_index_higher) + training_ex_index_higher;
+    % row = randi(training_ex_index_higher);
     x = csv_file(row, 3:end);
     y = csv_file(row, 1);
-    printf('From row %d\n', row)
     [predicted, actual] = predict(x, y, theta);
-    printf("actual: %d\n", actual);
-    if(predicted > 0.5)
-      printf("predicted: %d => 1\n", predicted);
-    else
-      printf("predicted: %d => 0\n", predicted);
+    rounded_predicted = round(predicted);
+    prediction_count = prediction_count + 1;
+    if(actual == rounded_predicted)
+      prediction_correct = prediction_correct + 1;
     end
+
+    printf('From row %d\n', row)
+    printf('actual: %d\n', actual);
+    printf('predicted: %f => %d\n', predicted, rounded_predicted);
+    printf('Percentage correct %f\n', (prediction_correct/prediction_count) * 100);
+
   elseif(strcmp(choice, '2'))
     weights_name = input('Enter the name of the file: ', 's');
     save(weights_name, 'theta');
+
   elseif(strcmp(choice, '3') || strcmp(choice, 'q'))
     printf('Quitting session\n');
     current_session = false;
+
   else
     printf('Please try again\n');
   end
