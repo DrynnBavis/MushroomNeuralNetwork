@@ -5,9 +5,9 @@ clear;
 % ========== VARIABLE DECLARATION ==========
 % Change these variables to manipulate the training
 training_ex_index_lower = 1;       % initial row of csv file (min 1)
-training_ex_index_higher = 5000;   % final row of csv file (max 7000)
+training_ex_index_higher = 1000;   % final row of csv file (max 7000)
 num_training_ex = training_ex_index_higher - training_ex_index_lower + 1;
-nodes_per_layer = [112 112 1];     % nodes in each layer
+nodes_per_layer = [112 112 112 1];     % nodes in each layer
 learning_rate = 0.15;              % learning rate (applied to delta changes)
 regularization_term = 0;           % regularization term (for overfitting)
 max_iterations = 100000;           % max iterations
