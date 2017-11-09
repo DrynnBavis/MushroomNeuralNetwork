@@ -25,7 +25,7 @@ tStart = tic;
 [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, min_acceptable_error, learning_rate, regularization_term);
 elapsedTime = toc(tStart);
 
-file_name = strcat('trained_networks/trained-', num2str(floor(time)));
+file_name = strcat('trained_networks/trained-', num2str(floor(elapsedTime)));
 file_name = strcat(file_name, '.mat');
 
 save(file_name, 'theta', 'err', 'cost_vector', 'num_training_ex', 'nodes_per_layer', 'learning_rate', 'regularization_term', 'max_iterations', 'elapsedTime');
