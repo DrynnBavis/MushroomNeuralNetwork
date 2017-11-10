@@ -43,9 +43,9 @@ function [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations
       % "Error" in last layer
       delE_deloutput = a{end} - Y;
       % This is g'(z(end))
-      deloutput_delnet_output = activation_func_prime(a{end});
+      % deloutput_delnet_output = activation_func_prime(a{end});
       % "Error" wrt net output
-      delE_del_net_output = delE_deloutput .* deloutput_delnet_output;
+      delE_del_net_output = delE_deloutput;% .* deloutput_delnet_output;
       delta{end} = delE_del_net_output;
 
       % ========== OTHER LAYERS ==========
