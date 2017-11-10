@@ -10,9 +10,9 @@ training_ex_index_lower = 1;       % initial row of csv file (min 1)
 training_ex_index_higher = 5000;   % final row of csv file (max 7000)
 num_training_ex = training_ex_index_higher - training_ex_index_lower + 1;
 nodes_per_layer = [112 112 1];     % nodes in each layer
-learning_rate = 0.15;              % learning rate (applied to delta changes)
+learning_rate = 0.01;              % learning rate (applied to delta changes)
 regularization_term = 0;           % regularization term (for overfitting)
-max_iterations = 100000;           % max iterations
+max_iterations = 1000;           % max iterations
 min_acceptable_error = 1.0000e-07; % min relative acceptable error between thetas
 presentation_mode = false;
 chosen_neural_network_file = 'trained_networks/trained-1510092688.mat';
@@ -56,19 +56,21 @@ else
 
   else
     fprintf('Training from scratch...\n');
+    tStart = tic;
     [theta, err, cost_vector] = train(X, Y, nodes_per_layer, max_iterations, min_acceptable_error, learning_rate, regularization_term);
+    elapsedTime = toc(tStart);
     fprintf('Done training!\n');
-    iterations_performed = [1:1:size(cost_vector, 2)];
-    plot_cost(iterations_performed, cost_vector, 'cost vs iterations', 'iterations', 'cost');
   end
 end
 
+iterations_performed = [1:1:size(cost_vector, 2)];
+plot_cost(iterations_performed, cost_vector, 'cost vs iterations', 'iterations', 'cost');
 current_session = true;
 prediction_correct = 0;
 prediction_count = 0;
+
 while(current_session)
   choice = input('What would you like to do? (1) predict, (2) save weights, (3) quit: ', 's');
-
   if(strcmp(choice, '1'))
     row = randi(size(csv_file, 1) - training_ex_index_higher) + training_ex_index_higher;
     % row = randi(training_ex_index_higher);
@@ -87,8 +89,8 @@ while(current_session)
     fprintf('Percentage correct %f\n', (prediction_correct/prediction_count) * 100);
 
   elseif(strcmp(choice, '2'))
-    weights_name = input('Enter the name of the file: ', 's');
-    save(weights_name, 'theta');
+    file_name = input('Enter the name of the file: ', 's');
+    save(file_name, 'theta', 'err', 'cost_vector', 'num_training_ex', 'nodes_per_layer', 'learning_rate', 'regularization_term', 'max_iterations', 'elapsedTime');
 
   elseif(strcmp(choice, '3') || strcmp(choice, 'q'))
     fprintf('Quitting session\n');
