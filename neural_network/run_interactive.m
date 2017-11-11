@@ -15,7 +15,7 @@ regularization_term = 0;           % regularization term (for overfitting)
 max_iterations = 1000;           % max iterations
 min_acceptable_error = 1.0000e-07; % min relative acceptable error between thetas
 presentation_mode = false;
-chosen_neural_network_file = 'trained_networks/trained-1510092688.mat';
+chosen_neural_network_file = 'trained_networks/trained-2000.07100000-1510296109.mat';
 
 % ========== READ CSV ===========
 csv_file = csvread('../datasets/one-hot-mushrooms.csv', 1, 0);
