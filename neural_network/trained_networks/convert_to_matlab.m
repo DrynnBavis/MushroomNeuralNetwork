@@ -1,3 +1,4 @@
+clear
 files = dir('*.mat')
 
 for file = files'
