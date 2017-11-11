@@ -14,7 +14,7 @@ learning_rate = 0.01;              % learning rate (applied to delta changes)
 regularization_term = 0;           % regularization term (for overfitting)
 max_iterations = 1000;           % max iterations
 min_acceptable_error = 1.0000e-07; % min relative acceptable error between thetas
-presentation_mode = false;
+presentation_mode = true;
 chosen_neural_network_file = 'trained_networks/trained-2000.07100000-1510296109.mat';
 
 % ========== READ CSV ===========
